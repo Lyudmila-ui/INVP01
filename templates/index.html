@@ -70,38 +70,33 @@
     </section>
 
     <section class="block" id="materials">
-      <div class="issue-layout">
-        <div class="issue-intro">
-          <p class="kicker">Свежий выпуск</p>
-          <h2 class="section-title">Десять материалов</h2>
-          <p class="issue-lead">Выберите тему или оставьте все карточки. Кнопка открывает полный разбор.</p>
-          <div class="filters" role="group" aria-label="Темы">
-            <button class="chip is-active" type="button" data-tag="all" aria-pressed="true">
-              Все · {{ materials|length }}
+      <div class="materials-head">
+        <p class="kicker">Свежий выпуск</p>
+        <h2 class="section-title">Десять материалов</h2>
+        <p class="issue-lead">Выберите тему или оставьте все карточки. Кнопка открывает полный разбор.</p>
+        <div class="filters" role="group" aria-label="Темы">
+          <button class="chip is-active" type="button" data-tag="all" aria-pressed="true">
+            Все · {{ materials|length }}
+          </button>
+          {% for tag in tags %}
+            <button class="chip" type="button" data-tag="{{ tag }}" aria-pressed="false">
+              {{ tag }} · {{ counts[tag] }}
             </button>
-            {% for tag in tags %}
-              <button class="chip" type="button" data-tag="{{ tag }}" aria-pressed="false">
-                {{ tag }} · {{ counts[tag] }}
-              </button>
-            {% endfor %}
-          </div>
-          <p class="filter-status" id="filter-status" aria-live="polite">Показано: {{ materials|length }}</p>
+          {% endfor %}
         </div>
-
-        <div>
-          <noscript>
-            <p class="noscript-note">Фильтр тем включается вместе с JavaScript. Без него ниже показаны все материалы — так и задумано.</p>
-          </noscript>
-          <div class="cards">
-            {% for item in materials %}
-              {% with card_index=loop.index %}
-                {% include "partials/card.html" %}
-              {% endwith %}
-            {% endfor %}
-          </div>
-          <p class="cards-empty" hidden>В этой теме пока нет карточек. Добавьте материал с такой темой в data.py.</p>
-        </div>
+        <p class="filter-status" id="filter-status" aria-live="polite">Показано: {{ materials|length }}</p>
       </div>
+      <noscript>
+        <p class="noscript-note">Фильтр тем включается вместе с JavaScript. Без него ниже показаны все материалы — так и задумано.</p>
+      </noscript>
+      <div class="cards">
+        {% for item in materials %}
+          {% with card_index=loop.index %}
+            {% include "partials/card.html" %}
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <p class="cards-empty" hidden>В этой теме пока нет карточек. Добавьте материал с такой темой в data.py.</p>
     </section>
 
     <section class="subscribe-band" id="subscribe">
