@@ -1,0 +1,19 @@
+{# Одна карточка выпуска. Цвет берётся из темы в data.py. #}
+<article
+  class="card"
+  data-tag="{{ item.tag }}"
+  style="--accent: var(--{{ tags[item.tag] }}); --i: {{ card_index|default(1) }};"
+>
+  <div class="card-top">
+    <span class="card-num">{{ "%02d"|format(item.number) }}</span>
+    <span class="card-tag">{{ item.tag }}</span>
+  </div>
+  <h3 class="card-title">{{ item.title }}</h3>
+  <p class="card-teaser">{{ item.teaser }}</p>
+  <div class="card-foot">
+    <span class="card-time">{{ item.minutes }} мин</span>
+    <a class="btn" href="{{ url_for('material', slug=item.slug) }}">
+      Открыть материал <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

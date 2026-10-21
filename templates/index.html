@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <section class="hero">
+      <p class="hero-watermark" aria-hidden="true">01</p>
+      <div class="hero-copy">
+        <p class="kicker">Выпуск 01 · AI-дайджест для новичков</p>
+        <h1>Понять ИИ <span class="mark">без тумана</span> и без гонки</h1>
+        <p class="lede">Десять коротких разборов. Открываете карточку — и за несколько минут забираете одну ясную мысль, которую обычно прячут за терминами.</p>
+
+        {% with form_id="hero", button_label="Получать по понедельникам", next_url="/" %}
+          {% include "partials/subscribe_form.html" %}
+        {% endwith %}
+
+        <p class="alt-path">
+          <a href="{{ url_for('material', slug=featured.slug) }}">Или сразу открыть первый материал</a>
+        </p>
+
+        <dl class="stats">
+          <div>
+            <dd>10</dd>
+            <dt>материалов в выпуске</dt>
+          </div>
+          <div>
+            <dd>7 мин</dd>
+            <dt>примерно на один разбор</dt>
+          </div>
+          <div>
+            <dd>1</dd>
+            <dt>письмо по понедельникам</dt>
+          </div>
+        </dl>
+      </div>
+
+      <aside class="spotlight" style="--accent: var(--{{ tags[featured.tag] }});" aria-labelledby="spotlight-title">
+        <p class="kicker">С чего открыть выпуск</p>
+        <p class="spotlight-num">{{ "%02d"|format(featured.number) }}</p>
+        <h2 id="spotlight-title">{{ featured.title }}</h2>
+        <p>{{ featured.teaser }}</p>
+        <p class="spotlight-meta">{{ featured.tag }} · {{ featured.minutes }} мин</p>
+        <a class="btn btn-solid" href="{{ url_for('material', slug=featured.slug) }}">
+          Открыть материал <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </aside>
+    </section>
+
+    <section class="block" id="how">
+      <p class="kicker">Как устроен выпуск</p>
+      <h2 class="section-title">Три шага, и ИИ перестаёт шуметь</h2>
+      <ol class="steps">
+        <li class="step">
+          <span>01</span>
+          <h3>Берёте одну карточку</h3>
+          <p>Не всю ленту советов сразу. Одна тема, один вечер, одна кнопка «Открыть материал».</p>
+        </li>
+        <li class="step">
+          <span>02</span>
+          <h3>Читаете человеческим языком</h3>
+          <p>Внутри — пример, граница и фраза, которую легко пересказать своими словами.</p>
+        </li>
+        <li class="step">
+          <span>03</span>
+          <h3>Оставляете почту, если зашло</h3>
+          <p>Следующий разбор придёт в понедельник. Если нет — выпуск уже можно читать целиком.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="block" id="materials">
+      <div class="issue-layout">
+        <div class="issue-intro">
+          <p class="kicker">Свежий выпуск</p>
+          <h2 class="section-title">Десять материалов</h2>
+          <p class="issue-lead">Выберите тему или оставьте все карточки. Кнопка открывает полный разбор.</p>
+          <div class="filters" role="group" aria-label="Темы">
+            <button class="chip is-active" type="button" data-tag="all" aria-pressed="true">
+              Все · {{ materials|length }}
+            </button>
+            {% for tag in tags %}
+              <button class="chip" type="button" data-tag="{{ tag }}" aria-pressed="false">
+                {{ tag }} · {{ counts[tag] }}
+              </button>
+            {% endfor %}
+          </div>
+          <p class="filter-status" id="filter-status" aria-live="polite">Показано: {{ materials|length }}</p>
+        </div>
+
+        <div>
+          <noscript>
+            <p class="noscript-note">Фильтр тем включается вместе с JavaScript. Без него ниже показаны все материалы — так и задумано.</p>
+          </noscript>
+          <div class="cards">
+            {% for item in materials %}
+              {% with card_index=loop.index %}
+                {% include "partials/card.html" %}
+              {% endwith %}
+            {% endfor %}
+          </div>
+          <p class="cards-empty" hidden>В этой теме пока нет карточек. Добавьте материал с такой темой в data.py.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="subscribe-band" id="subscribe">
+      <p class="kicker">Понедельник, одно письмо</p>
+      <h2 class="section-title">Следующий разбор — на почту, без гонки за лентой</h2>
+      <p class="lede">Коротко: одна тема, один пример, одна фраза «запомнить». Никаких ежедневных «вы пропустили важное».</p>
+      {% with form_id="bottom", button_label="Хочу следующий разбор", next_url="/" %}
+        {% include "partials/subscribe_form.html" %}
+      {% endwith %}
+    </section>
+  </div>
+{% endblock %}
+
+{% block sticky %}
+  <a class="sticky-cta" href="#subscribe">Получать дайджест</a>
+{% endblock %}

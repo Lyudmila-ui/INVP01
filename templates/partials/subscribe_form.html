@@ -1,0 +1,17 @@
+{# Форма подписки. form_id, button_label и next_url задаёт страница, которая её вставляет. #}
+<form class="subscribe-form" method="post" action="{{ url_for('subscribe') }}">
+  <label for="email-{{ form_id }}">Почта для дайджеста</label>
+  <input
+    id="email-{{ form_id }}"
+    type="email"
+    name="email"
+    placeholder="ваша@почта.ru"
+    autocomplete="email"
+    inputmode="email"
+    maxlength="120"
+    required
+  >
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <button class="btn-send" type="submit">{{ button_label }}</button>
+  <p class="form-note">Одно письмо в понедельник. Без цепочки «вы так и не открыли». В учебном проекте адрес записывается в файл subscribers.txt.</p>
+</form>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Страница не найдена — INVP01{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <section class="missing">
+      <p class="kicker">Ошибка 404</p>
+      <h1>Такой страницы в выпуске нет</h1>
+      <p class="lede">Ссылку могли собрать с опечаткой, или материал ещё не добавлен в data.py.</p>
+      <a class="btn btn-solid" href="{{ url_for('index') }}">Вернуться к выпуску <span class="arrow" aria-hidden="true">→</span></a>
+    </section>
+  </div>
+{% endblock %}

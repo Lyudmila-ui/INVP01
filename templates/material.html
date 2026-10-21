@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ material.title }} — INVP01{% endblock %}
+{% block description %}{{ material.teaser }}{% endblock %}
+{% block body_class %}page-material{% endblock %}
+
+{% block progress %}
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <article class="reading" style="--accent: var(--{{ tags[material.tag] }});">
+      <p class="back"><a href="{{ url_for('index') }}#materials">← Все материалы</a></p>
+      <p class="card-tag">{{ material.tag }}</p>
+      <h1>{{ material.title }}</h1>
+      <p class="meta">Материал {{ "%02d"|format(material.number) }} · {{ material.minutes }} мин чтения</p>
+      <p class="lead">{{ material.lead }}</p>
+
+      {% for section in material.sections %}
+        <h2>{{ section.heading }}</h2>
+        {% for paragraph in section.paragraphs %}
+          <p>{{ paragraph }}</p>
+        {% endfor %}
+      {% endfor %}
+
+      {% if material.example %}
+        <div class="compare">
+          <figure>
+            <figcaption>Так слишком размыто</figcaption>
+            <blockquote>{{ material.example.bad }}</blockquote>
+          </figure>
+          <figure>
+            <figcaption>Так понятнее модели</figcaption>
+            <blockquote>{{ material.example.good }}</blockquote>
+          </figure>
+        </div>
+      {% endif %}
+
+      <aside class="remember">
+        <p class="remember-label">Запомнить</p>
+        <p>{{ material.remember }}</p>
+      </aside>
+    </article>
+
+    <section class="subscribe-band subscribe-band-narrow" id="subscribe">
+      <p class="kicker">Дальше будет ещё</p>
+      <h2 class="section-title">Хотите такой же разбор в понедельник?</h2>
+      <p class="lede">Одна тема за письмо. Этот выпуск можно дочитать и без почты.</p>
+      {% with form_id="material", button_label="Присылать по понедельникам", next_url=url_for('material', slug=material.slug) %}
+        {% include "partials/subscribe_form.html" %}
+      {% endwith %}
+    </section>
+
+    <section class="block">
+      <h2 class="section-title">Дальше по выпуску</h2>
+      <div class="cards cards-related">
+        {% for item in related %}
+          {% with card_index=loop.index %}
+            {% include "partials/card.html" %}
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+{% endblock %}

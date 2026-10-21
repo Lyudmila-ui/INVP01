@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0b10">
+  <title>{% block title %}INVP01 — AI-дайджест для новичков{% endblock %}</title>
+  <meta name="description" content="{% block description %}Десять коротких разборов про искусственный интеллект простым языком. Откройте карточку или оставьте почту — следующий материал выходит по понедельникам.{% endblock %}">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#content">К содержанию</a>
+  {% block progress %}{% endblock %}
+
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="{{ url_for('index') }}">
+        <span class="logo-mark">01</span>
+        <span>
+          <span class="logo-name">INVP01</span>
+          <span class="logo-sub">дайджест для новичков</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Разделы сайта">
+        <a href="{{ url_for('index') }}#materials">Материалы</a>
+        <a href="{{ url_for('index') }}#how">Как читать</a>
+        <a href="{{ url_for('index') }}#subscribe">Подписка</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" tabindex="-1">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container">
+          <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="flash flash-{{ category }}" role="{{ 'alert' if category == 'error' else 'status' }}">
+                <span>{{ message }}</span>
+                <button class="flash-close" type="button" aria-label="Закрыть сообщение">×</button>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="logo-name">INVP01</p>
+        <p>AI-дайджест для новичков. Выпуск 01.</p>
+      </div>
+      <nav aria-label="Подвал">
+        <a href="{{ url_for('index') }}#materials">Материалы</a>
+        <a href="{{ url_for('index') }}#how">Как читать</a>
+        <a href="{{ url_for('index') }}#subscribe">Подписка</a>
+      </nav>
+    </div>
+    <div class="container">
+      <p class="legal">Учебный сайт. Тексты объясняют идеи простым языком и не заменяют документацию сервисов. Адрес из формы сохраняется только в файл на компьютере, где запущен проект.</p>
+    </div>
+  </footer>
+
+  {% block sticky %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
